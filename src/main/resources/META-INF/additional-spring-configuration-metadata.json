@@ -1,0 +1,44 @@
+{
+  "properties": [
+    {
+      "name": "app.jwtExpirationInMs",
+      "type": "java.lang.String",
+      "description": "JWT Time."
+    },
+    {
+      "name": "app.jwtSecret",
+      "type": "java.lang.String",
+      "description": "JWT Secret."
+    },
+    {
+      "name": "aws.accessKey",
+      "type": "java.lang.String",
+      "description": "AWS S3 access key."
+    },
+    {
+      "name": "aws.secretKey",
+      "type": "java.lang.String",
+      "description": "AWS S3 secret key."
+    },
+    {
+      "name": "aws.bucketName",
+      "type": "java.lang.String",
+      "description": "AWS S3 bucket name."
+    },
+    {
+      "name": "aws.bucketAddress",
+      "type": "java.lang.String",
+      "description": "AWS S3 bucket public URL."
+    },
+    {
+      "name": "app.log",
+      "type": "java.lang.String",
+      "description": "Path to log file."
+    },
+    {
+      "name": "bot.numberOfInstances",
+      "type": "java.lang.String",
+      "description": "Number of instances."
+    }
+  ]
+}
