@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @AllArgsConstructor
 public class BotRequest {
-  @Setter
-  @Getter
-  private String api;
 
-  @Getter
-  @Setter
-  private String username;
+    @Setter
+    @Getter
+    private String api;
+
+    @Getter
+    @Setter
+    private String username;
 }

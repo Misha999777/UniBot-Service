@@ -14,28 +14,28 @@ import org.springframework.util.StringUtils;
 @Configuration
 public class S3Config {
 
-  @Value("${aws.accessKey:#{null}}")
-  private String accessKey;
-  @Value("${aws.secretKey:#{null}}")
-  private String secretKey;
-  @Getter
-  @Value("${aws.bucketName:#{null}}")
-  private String bucketName;
-  @Getter
-  @Value("${aws.bucketAddress:#{null}}")
-  private String bucketAddress;
+    @Value("${aws.accessKey:#{null}}")
+    private String accessKey;
+    @Value("${aws.secretKey:#{null}}")
+    private String secretKey;
+    @Getter
+    @Value("${aws.bucketName:#{null}}")
+    private String bucketName;
+    @Getter
+    @Value("${aws.bucketAddress:#{null}}")
+    private String bucketAddress;
 
-  @Bean
-  public AmazonS3 amazonS3() {
-    if (StringUtils.hasText(accessKey)) {
-      BasicAWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-      return AmazonS3ClientBuilder.standard()
-          .withRegion(Regions.US_EAST_2)
-          .withCredentials(new AWSStaticCredentialsProvider(credentials))
-          .build();
-    } else {
-      return null;
+    @Bean
+    public AmazonS3 amazonS3() {
+        if (StringUtils.hasText(accessKey)) {
+            BasicAWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+            return AmazonS3ClientBuilder.standard()
+                                        .withRegion(Regions.US_EAST_2)
+                                        .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                                        .build();
+        } else {
+            return null;
+        }
     }
-  }
 
 }

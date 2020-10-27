@@ -39,6 +39,42 @@
       "name": "bot.numberOfInstances",
       "type": "java.lang.String",
       "description": "Number of instances."
+    },
+    {
+      "name": "oauth.client",
+      "type": "java.lang.String",
+      "description": "Client ID on OAuth server."
+    },
+    {
+      "name": "oauth.server",
+      "type": "java.lang.String",
+      "description": "URL for the OAuth server."
+    },
+    {
+      "name": "oauth.realm",
+      "type": "java.lang.String",
+      "description": "OAuth realm."
+    },
+    {
+      "name": "oauth.user1.username",
+      "type": "java.lang.String",
+      "description": "Username for user 1 for tests."
+    },
+    {
+      "name": "oauth.user2.username",
+      "type": "java.lang.String",
+      "description": "Username for user 2 for tests."
+    },
+    {
+      "name": "oauth.user1.password",
+      "type": "java.lang.String",
+      "description": "Password for user 1 for tests."
+    },
+    {
+      "name": "oauth.user2.password",
+      "type": "java.lang.String",
+      "description": "Password for user 2 for tests."
     }
+
   ]
 }

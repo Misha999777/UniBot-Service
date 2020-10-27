@@ -1,16 +1,13 @@
 package tk.tcomad.unibot.entity;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.*;
+
+import lombok.*;
+import tk.tcomad.unibot.entity.botdata.*;
 
 @Entity
 @NoArgsConstructor
@@ -18,23 +15,60 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Bot implements Serializable {
 
-    @Getter
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    public Bot(@NonNull String api, @NonNull String username, @NonNull String instanceId) {
+        this.api = api;
+        this.username = username;
+        this.instanceId = instanceId;
+    }
 
+    @Getter
+    @NonNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Setter
     @Getter
     @NonNull
     private String api;
-
     @Getter
     @Setter
     @NonNull
     private String username;
-
     @Getter
     @Setter
     @NonNull
     private String instanceId;
+    @Getter
+    @Setter
+    private String user;
+    @Getter
+    @Setter
+    private String educationAppGroupId;
+    @Getter
+    @Setter
+    private String weekStart;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<App> apps;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Book> books;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Lecture> lectures;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Lesson> lessons;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Student> students;
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Teacher> teachers;
 }

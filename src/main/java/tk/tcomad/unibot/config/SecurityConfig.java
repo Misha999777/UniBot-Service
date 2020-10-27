@@ -1,91 +1,54 @@
 package tk.tcomad.unibot.config;
 
-import lombok.AllArgsConstructor;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
+import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import tk.tcomad.unibot.security.CustomUserDetailsService;
-import tk.tcomad.unibot.security.JwtAuthenticationEntryPoint;
-import tk.tcomad.unibot.security.JwtAuthenticationFilter;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
-@AllArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-  CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        auth.authenticationProvider(keycloakAuthenticationProvider);
+    }
 
-  private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    @Bean
+    public KeycloakConfigResolver KeycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
+    }
 
-  @Bean
-  public JwtAuthenticationFilter jwtAuthenticationFilter() {
-    return new JwtAuthenticationFilter();
-  }
-
-  @Override
-  public void configure(
-      AuthenticationManagerBuilder authenticationManagerBuilder)
-      throws Exception {
-    authenticationManagerBuilder
-        .userDetailsService(customUserDetailsService)
-        .passwordEncoder(passwordEncoder());
-  }
-
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
-
-  private static class PlainTextPasswordEncoder implements PasswordEncoder {
-
+    @Bean
     @Override
-    public String encode(CharSequence charSequence) {
-      return charSequence.toString();
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
     @Override
-    public boolean matches(CharSequence charSequence, String s) {
-      return charSequence.toString().equals(s);
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/downloadFile/**").permitAll()
+                .anyRequest().authenticated();
     }
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new PlainTextPasswordEncoder();
-  }
-
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-        .cors()
-        .and()
-        .csrf()
-        .disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(unauthorizedHandler)
-        .and()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeRequests()
-        .antMatchers("/auth")
-        .permitAll()
-        .antMatchers("/")
-        .permitAll()
-        .antMatchers("/downloadFile/**")
-        .permitAll()
-        .anyRequest()
-        .authenticated();
-
-    http.addFilterBefore(jwtAuthenticationFilter(),
-        UsernamePasswordAuthenticationFilter.class);
-  }
 }
+

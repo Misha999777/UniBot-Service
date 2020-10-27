@@ -12,23 +12,23 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 @Configuration
 public class TelegramConfig {
 
-  @Getter
-  @Value("${bot.hourToSendTimetable:#{7}}")
-  private int hour;
-  @Getter
-  @Value("${bot.creatorId:#{397052865}}")
-  private int creatorId;
-  @Value("${bot.instanceId:#{1}}")
-  private String instanceId;
+    @Getter
+    @Value("${bot.hourToSendTimetable:#{7}}")
+    private int hour;
+    @Getter
+    @Value("${bot.creatorId:#{397052865}}")
+    private int creatorId;
+    @Value("${bot.instanceId:#{1}}")
+    private String instanceId;
 
-  public String getInstanceId() {
-    return StringUtils.defaultIfEmpty(EC2MetadataUtils.getInstanceId(), instanceId);
-  }
+    public String getInstanceId() {
+        return StringUtils.defaultIfEmpty(EC2MetadataUtils.getInstanceId(), instanceId);
+    }
 
-  @Bean
-  public TelegramBotsApi telegramBotsApi() {
-    ApiContextInitializer.init();
-    return new TelegramBotsApi();
-  }
+    @Bean
+    public TelegramBotsApi telegramBotsApi() {
+        ApiContextInitializer.init();
+        return new TelegramBotsApi();
+    }
 
 }

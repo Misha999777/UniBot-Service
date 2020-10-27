@@ -7,6 +7,7 @@ import lombok.Setter;
 
 @AllArgsConstructor
 public class UploadFileResponse {
+
     @Getter
     @Setter
     @NonNull

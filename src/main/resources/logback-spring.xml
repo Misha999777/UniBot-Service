@@ -17,12 +17,12 @@
     <logger name="org.telegram.abilitybots.api" level="ERROR"/>
 
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE"/>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="ASYNC" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 </configuration>
