@@ -17,7 +17,7 @@ jobs:
       - name: Grant execute permission for mvnw
         run: chmod +x mvnw
       - name: Package with Mavwn
-        run: ./mvnw package -DskipTests
+        run: ./mvnw package
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
