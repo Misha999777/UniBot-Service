@@ -23,6 +23,7 @@ jobs:
         with:
           name: UniBot
           path: ./target/UniBot.jar
+          retention-days: 1
   image-build:
     needs: build-archive
     runs-on: ubuntu-latest
